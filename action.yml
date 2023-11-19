@@ -15,10 +15,11 @@ runs:
 
     - name: Remove apt package(s)
       run: |
-        mkdir /tmp/optimize-storage-space
-        curl -f "https://releases.ubuntu.com/releases/22.04/ubuntu-22.04.3-live-server-amd64.manifest" -o /tmp/optimize-storage-space/require_packages.list
-        REMOVE_TAEGET_PACKAGES=$(comm -13 <(cat /tmp/optimize-storage-space/require_packages.list | awk '{print $1}' | sort -u) <(apt-mark showmanual | sort -u) | grep -v "^linux-" | grep -v "libdebconfclient0")
+        mkdir /tmp/optimize-disk-space
+        curl -f "https://releases.ubuntu.com/releases/22.04/ubuntu-22.04.3-live-server-amd64.manifest" -o /tmp/optimize-disk-space/require_packages.list
+        REMOVE_TAEGET_PACKAGES=$(comm -13 <(cat /tmp/optimize-disk-space/require_packages.list | awk '{print $1}' | sort -u) <(apt-mark showmanual | sort -u) | grep -v "^linux-" | grep -v "libdebconfclient0")
         sudo apt autoremove --purge -y --allow-remove-essential $(echo $REMOVE_TAEGET_PACKAGES)
+        rm -r /tmp/optimize-disk-space
 
     - name: Remove other package(s)
       run: |
