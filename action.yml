@@ -1,0 +1,35 @@
+name: 'Optimize disk space'
+description: 'More disk space is available.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Assertion
+      if: runner.name != 'ubuntu-22.04'
+      run: |
+        exit 1
+
+    - name: Disk free
+      run: |
+        df -h
+
+    - name: Remove apt package(s)
+      run: |
+        mkdir /tmp/optimize-storage-space
+        curl -f "https://releases.ubuntu.com/releases/22.04/ubuntu-22.04.3-live-server-amd64.manifest" -o /tmp/optimize-storage-space/require_packages.list
+        REMOVE_TAEGET_PACKAGES=$(comm -13 <(cat /tmp/optimize-storage-space/require_packages.list | awk '{print $1}' | sort -u) <(apt-mark showmanual | sort -u) | grep -v "^linux-" | grep -v "libdebconfclient0")
+        sudo apt autoremove --purge -y --allow-remove-essential $(echo $REMOVE_TAEGET_PACKAGES)
+
+    - name: Remove other package(s)
+      run: |
+        sudo rm -r /usr/local/lib/android
+        sudo rm -r /usr/local/lib/node_modules
+        sudo rm -r /usr/local/share/chromium
+        sudo rm -r /usr/local/share/powershell
+        sudo rm -r /usr/share/dotnet
+        sudo rm -r /usr/share/php
+        sudo rm -r "$AGENT_TOOLSDIRECTORY"
+
+    - name: Disk free
+      run: |
+        df -h
