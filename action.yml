@@ -1,5 +1,8 @@
 name: 'Optimize disk space'
 description: 'More disk space is available.'
+branding:
+  icon: 'crop'
+  color: 'gray-dark'
 
 runs:
   using: 'composite'
