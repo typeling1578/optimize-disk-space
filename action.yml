@@ -5,10 +5,11 @@ runs:
   using: 'composite'
   steps:
     - name: Assertion
-      if: runner.name != 'ubuntu-22.04'
       shell: bash
       run: |
-        exit 1
+        if [ $(lsb_release -cs) != "jammy" ]; then
+          exit 1
+        fi
 
     - name: Disk free
       shell: bash
