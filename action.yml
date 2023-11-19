@@ -6,14 +6,17 @@ runs:
   steps:
     - name: Assertion
       if: runner.name != 'ubuntu-22.04'
+      shell: bash
       run: |
         exit 1
 
     - name: Disk free
+      shell: bash
       run: |
         df -h
 
     - name: Remove apt package(s)
+      shell: bash
       run: |
         mkdir /tmp/optimize-disk-space
         curl -f "https://releases.ubuntu.com/releases/22.04/ubuntu-22.04.3-live-server-amd64.manifest" -o /tmp/optimize-disk-space/require_packages.list
@@ -22,6 +25,7 @@ runs:
         rm -r /tmp/optimize-disk-space
 
     - name: Remove other package(s)
+      shell: bash
       run: |
         sudo rm -r /usr/local/lib/android
         sudo rm -r /usr/local/lib/node_modules
@@ -32,5 +36,6 @@ runs:
         sudo rm -r "$AGENT_TOOLSDIRECTORY"
 
     - name: Disk free
+      shell: bash
       run: |
         df -h
