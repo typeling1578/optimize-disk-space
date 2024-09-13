@@ -23,7 +23,7 @@ runs:
       shell: bash
       run: |
         mkdir /tmp/optimize-disk-space
-        curl -f "https://releases.ubuntu.com/releases/22.04/ubuntu-22.04.4-live-server-amd64.manifest" -o /tmp/optimize-disk-space/require_packages.list
+        curl -f "https://releases.ubuntu.com/releases/22.04/ubuntu-22.04.5-live-server-amd64.manifest" -o /tmp/optimize-disk-space/require_packages.list
         REMOVE_TAEGET_PACKAGES=$(comm -13 <(cat /tmp/optimize-disk-space/require_packages.list | awk '{print $1}' | sort -u) <(apt-mark showmanual | sort -u) | grep -v "^linux-" | grep -v "libdebconfclient0")
         sudo apt autoremove --purge -y --allow-remove-essential $(echo $REMOVE_TAEGET_PACKAGES)
         rm -r /tmp/optimize-disk-space
