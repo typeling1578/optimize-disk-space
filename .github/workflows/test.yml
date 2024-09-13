@@ -1,0 +1,22 @@
+name: test
+
+on:
+  workflow_dispatch:
+  push:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  test-ubuntu-2204:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: (Before) Disk Info
+        run: |
+          df -h
+
+      - name: Optimize disk space
+        uses: typeling1578/optimize-disk-space@main
+
+      - name: (After) Disk Info
+        run: |
+          df -h
