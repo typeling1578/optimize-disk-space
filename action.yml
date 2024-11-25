@@ -19,6 +19,11 @@ runs:
       run: |
         df -h
 
+    - name: Update repos
+      shell: bash
+      run: |
+        sudo apt update
+
     - name: Remove apt package(s)
       shell: bash
       run: |
